@@ -4,13 +4,15 @@ class QuestionController < ApplicationController
   end
 
   def new
+    
+    @current_user = Askeduser.find_by_id(session[:id])
 
   end
 
   def create
-    # @content = params[:content]
-    # @writter = params[:writter]
-    # @writter = params[:writter].eql? "private" ? "익명" : params[:writter]
+    @current_user = Askeduser.find_by_id(session[:id])
+
+    @writter = params[:writter] #.eql? "private" ? "익명" : params[:writter]
     
     Question.create(
       content: params[:content],
@@ -50,25 +52,24 @@ class QuestionController < ApplicationController
   end
   
   def login_process
-    # @email = params[:email]
-    @name = params[:name]
-    @password = params[:password]
-    
+    @input_email = params[:email]
     @asked = Askeduser.find_by(email: params[:email])
     
     if @asked
       if @asked.password == params[:password]
-        session[:id] == @asked.id
-        @msg = "로그인 되었습니다."
-      redirect_to '/question/login_process'
+         @msg = "로그인 되었습니다."
+         session[:id] = @asked.id
+        # session[:id] = @asked.id
+        redirect_to '/'
       else
-        @msg = "비밀번호가 잘못되었습니다."
-        redirect_to '/question/login_process'
+         @msg = "비밀번호가 잘못되었습니다."
+         redirect_to '/question/login'
       end
     else
-      @masg = "회원가입이 되어있지 않습니다."
-      redirect_to '/question/login_process'
+      @msg = "회원가입이 되어있지 않습니다."
+      redirect_to '/question/sign_up'
     end
+ 
   end
   
   def logout
