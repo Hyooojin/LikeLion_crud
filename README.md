@@ -924,5 +924,30 @@ def edit
 <summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
 </summary>
 
+1. image가 뜨려면, image_tag로 바꾸어준다.
+
+[app/views/instas/#index.erb, #show.erb]
+```html
+<--!index.erb-->
+<% @images.each do |image|%>
+    <p><%=image_tag image.image_url%></p>
+    <p><%=image.content%></p>
+    <%=link_to '[상세보기]', insta_path(image.id) %>
+ <hr>
+<% end %>
+
+<--!show.erb-->
+<%=image_tag @image.image_url%><br>
+<%=@image.content%>
+<%=link_to '[수정]', edit_insta_path(@image.id) %>
+<%=link_to '[삭제]', insta_path(@image.id), method:"delete"%>
+
+
+
+```
+
+
+
+
 
 </details>

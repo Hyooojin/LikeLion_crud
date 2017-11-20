@@ -14,7 +14,7 @@
 
 
 <% @images.each do |image|%>
-    <p><%=image.image_url%></p>
+    <p><%=image_tag image.image_url%></p>
     <p><%=image.content%></p>
     <%=link_to '[상세보기]', insta_path(image.id) %>
  <hr>
