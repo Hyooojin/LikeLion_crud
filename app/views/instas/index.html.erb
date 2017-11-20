@@ -1,21 +1,25 @@
 <h1>Insta-Homepage</h1>
 <%=link_to 'Home', "/instas/index"%>
 
-<% if session[:id]%>
-    <a href="/question/logout">로그아웃</a></a><br>
-<% else %>
-    <a href="/question/sign_up">회원가입</a>
-    <a href="/question/login">로그인</a></a>
-<% end %>
+<!--<#% #if session[:id]%>-->
+<!--    <a href="/question/logout">로그아웃</a></a><br>-->
+<!--<#% else %>-->
+<!--    <a href="/insta_users/new">회원가입</a>-->
+<!--    <a href="/insta_users/edit">로그인</a></a>-->
+<!--<#% end %>-->
 
-
+<%=link_to '회원가입', new_userinsta_path%>
+<!--<#%=link_to '로그인', edit_userinsta_path%>-->
+<!--<#%=link_to '로그아웃', method: "delete"%>-->
 <br>
 <%=link_to '사진 올리기', new_insta_path%>
 
-
-<% @images.each do |image|%>
-    <p><%=image_tag image.image_url%></p>
-    <p><%=image.content%></p>
-    <%=link_to '[상세보기]', insta_path(image.id) %>
- <hr>
+<h1>회원목록</h1>
+<%@instausers.each do |u|%>
+    <%=u.id%>)
+    가입시기: <%=u.created_at%>
+    <%=u.name%>님이 가입한 email은 
+    <%=u.email%>입니다. <br>
+    <%=link_to '[상세보기]', userinsta_path(u.id)%>
+    <hr>
 <% end %>

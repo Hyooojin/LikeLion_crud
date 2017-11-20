@@ -943,8 +943,36 @@ def edit
 <%=link_to '[삭제]', insta_path(@image.id), method:"delete"%>
 
 
+<--!edit.erb-->
+<h1>수정</h1>
+<%=link_to 'Home', "/instas/index"%>
+<br>
+
+<%= form_tag insta_path(@image.id), method:"put" do %>
+    <%= image_tag @image.image_url%><br>
+    사진 주소 변경: <%= text_field_tag :image_url, @image.image_url %><br>
+    내용 변경 : <%= text_field_tag :content, @image.content %><br>
+    <%=submit_tag("사진 올리기")%>
+<% end %>
+
 
 ```
+
+</details>
+
+
+#### 7. User & Images
+<details>
+<summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
+</summary>
+* 회원가입, 로그인, 로그아웃
+* controller : #users 
+  * index new create show edit update destroy
+* model : insta_user
+  * insta_email, insta_password, insta_name
+
+1. 회원가입, 로그인, 로그아웃 구현
+
 
 
 

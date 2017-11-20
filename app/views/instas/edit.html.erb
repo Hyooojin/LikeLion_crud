@@ -3,7 +3,8 @@
 <br>
 
 <%= form_tag insta_path(@image.id), method:"put" do %>
-    사진 주소: <%= text_field_tag :image_url, @image.image_url %><br>
-    내용: <%= text_field_tag :content, @image.content %>
+    <%= image_tag @image.image_url%><br>
+    사진 주소 변경: <%= text_field_tag :image_url, @image.image_url %><br>
+    내용 변경 : <%= text_field_tag :content, @image.content %><br>
     <%=submit_tag("사진 올리기")%>
 <% end %>

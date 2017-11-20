@@ -1,0 +1,9 @@
+<h1>회원목록</h1>
+<%@instausers.each do |u|%>
+    <%=u.id%>)
+    가입시기: <%=u.created_at%>
+    <%=u.name%>님이 가입한 email은 
+    <%=u.email%>입니다. <br>
+    <%=link_to '[상세보기]', userinsta_path(u.id)%>
+    <hr>
+<% end %>
