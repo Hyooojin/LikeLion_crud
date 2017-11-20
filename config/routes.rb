@@ -1,6 +1,42 @@
 Rails.application.routes.draw do
+ 
+  root 'question#index' 
   
-  root 'question#index'
+  get 'instas/index'
+
+  resources :instas
+    
+  # get 'instas/index'
+
+  # get 'instas/new'
+
+  # get 'instas/show'
+
+  # get 'instas/create'
+
+  # get 'instas/edit'
+
+  # get 'instas/update'
+
+  # get 'instas/destroy'
+
+  
+
+  # get 'insta/index'
+
+  # get 'insta/new'
+
+  # get 'insta/create'
+
+  # get 'insta/show'
+
+  # get 'insta/edit'
+
+  # get 'insta/update'
+
+  # get 'insta/destroy'
+
+  
   
   get 'question/index'
 

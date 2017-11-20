@@ -1,0 +1,9 @@
+<h1>사진 올리기</h1>
+<%=link_to 'Home', "/instas/index"%>
+<br>
+
+<%= form_tag instas_path, method:"post" do %>
+    사진 주소: <%= text_field_tag :image_url %><br>
+    내용: <%= text_field_tag :content %>
+    <%=submit_tag("사진 올리기")%>
+<% end %>

@@ -1,0 +1,21 @@
+<h1>Insta-Homepage</h1>
+<%=link_to 'Home', "/instas/index"%>
+
+<% if session[:id]%>
+    <a href="/question/logout">로그아웃</a></a><br>
+<% else %>
+    <a href="/question/sign_up">회원가입</a>
+    <a href="/question/login">로그인</a></a>
+<% end %>
+
+
+<br>
+<%=link_to '사진 올리기', new_insta_path%>
+
+
+<% @images.each do |image|%>
+    <p><%=image.image_url%></p>
+    <p><%=image.content%></p>
+    <%=link_to '[상세보기]', insta_path(image.id) %>
+ <hr>
+<% end %>

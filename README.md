@@ -623,3 +623,304 @@ end
 ```
 
 </details>
+
+
+# CRUD 2: Like Insta homepage
+[Insta Homepage](https://www.instagram.com/)<br>
+* rails g controller insta<br>
+    - index, new, create, show, edit, update, destroy<br><br>
+* rails g modle images<br>  
+    - image_url, content<br><br>
+* rails g model insta_user<br>
+    - email, name, password<br>
+
+## 구현
+Step-by-step으로 정리한다. Rails를 활용하여 CRUD를 구현하는 방법을 정리할 것이며,
+[멋쟁이 사자처럼](https://likelion.net/)에서 배운 것을 나름대로 단계별로 정리하는 것을 목표로한다.
+다양한 실습을 하며 배운 이론과 개념도 다시 재정리 할 수 있으면 좋을 것 같다.<br>
+### 1. 환경설정
+-------------
+#### gemfile 설정
+1. gemfile에 추가
+```
+ gem 'rails_db'
+ gem 'awesome_print'
+ gem 'pry-rails'
+```
+2. install 
+```
+$ bundle install
+```
+<br>
+### 2. 컨트롤러 생성
+--------------
+#### 1.question_controller 컨트롤러 생성
+```
+$ rails g controller instas index new create show edit update destroy
+```
+<strong>RESTful CRUD</strong><br>
+단순히 crud에 지나지 않지만, 규칙이 있는 crud라고 생각하면된다. <br>
+== (정해진 규칙을 따라 만드는) CRUD<br>
+== (의미가 더 명확하게 만드는) CRUD<br> 
+== (HTTP Verb를 활용항 만드는 )CRUD<br>
+* Http통신을 통해서 무엇을 하는지 명확하게 한다 
+[출처: 멋쟁이 사자처럼 수업](https://ko.wikipedia.org/wiki/%EB%A9%8B%EC%9F%81%EC%9D%B4%EC%82%AC%EC%9E%90%EC%B2%98%EB%9F%BC)
+
+- config > `routes.rb` 확인
+- app > controller > `instas_controller` 확인
+- app > view > `instas` 확인
+
+<p><strong>REST API 가이드</strong></p>
+1. URL 정보를 표현한다.
+2. 자원에 대한 행위는 HTTP Method(GET, POST, PUT, DELETE)로 표현한다.
+3. 여러규칙들 (Convention)
+
+   	1. Routing은 RESTful하게
+   	2. Resource(조작할 자료) 
+      =>controller 이름을 복수형으로
+      =>/posts/index
+      =>rails g controller posts
+   	3. 단 model은 단수형
+      => 복수로 자동으로 만들어지기 때문에
+      => 테이블은 자동으로 복수형
+      => Post.all
+
+
+#### 2.routes의 root 설정<br>
+root를 설정해야만 바로 url을 눌러서 application을 실행시킬 수 있다. 
+
+```
+  root 'question#index' 
+  
+  get 'instas/index'
+
+  resources :instas
+
+```
+
+
+### 3. Web Service 구현
+------------------------
+#### 1.index page view page 작성
+-------------------------
+CRUD를 작성하는데에는 순서가 없지만, 개인적으로 프로그래밍 갓입문자로써 index veiw page를 먼저 작성하는 것이 편하다.
+
+첫 question/index에서 insta-home page에 갈 수 있도록 링크를 만든다.
+
+```
+<%=link_to 'Insta-Homepage', "/instas/index"%>
+```
+
+<strong>Insta-Homepage</strong>
+[views/instas/index]
+
+```
+<h1>Insta-Homepage</h1>
+<%=link_to '사진 올리기', new_insta_path%>
+
+
+<a href="/qustion/index">home</a>
+<% if session[:id]%>
+    <a href="/question/logout">로그아웃</a></a><br>
+<% else %>
+    <a href="/question/sign_up">회원가입</a>
+    <a href="/question/login">로그인</a></a>
+<% end %>
+```
+* link_to 이용하기
+* $ rake routes의 path이용
+* form_tag이용
+
+
+#### 2.'form_tag'와 'link_to'
+-----------------------
+form_tag와 link_to 그리고 method, path등을 이용해서 더욱
+쉽게 Web Service를 구현한다.
+
+```
+$ rake routes
+```
+* index new create show edit update destroy 
+* 명령어를 사용하면 각각의 path와 method를 확인할 수 있다.
+
+
+#### 3. Insta처럼 사진을 올릴 수 있다. 
+<details>
+<summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
+</summary>
+
+1. page 이동
+
+[app/views/instas/index] : 이미지 업로드 링크를 만들고, Upload 한 이미지를 출력한다.
+
+```
+<h1>Insta-Homepage</h1>
+<%=link_to 'Home', "/instas/index"%>
+<br>
+<%=link_to '사진 올리기', new_insta_path%>
+```
+
+2. 사용자에게 입력을 받는다.
+
+[app/views/instas/new] : image_url과 content를 입력받는다. 
+```
+<h1>사진 올리기</h1>
+<%=link_to 'Home', "/instas/index"%>
+<br>
+
+<%= form_tag instas_path, method:"post" do %>
+    사진 주소: <%= text_field_tag :image_url %><br>
+    내용: <%= text_field_tag :content %>
+    <%=submit_tag("사진 올리기")%>
+<% end %>
+```
+`<%= form_tag instas_path, method:"post" do%>`를 살펴보면 `instas_path'는 form_action = "/instas/new"와 같다. <br>
+`insta`_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 `put`으로 한다.
+
+```
+$ rake routes #에서 확인 가능
+```
+
+</details>
+
+
+#### 4. 인스타에 올린 사진을 수정, 저장을 하기 위해서는 DB가 필요하다.  
+<details>
+<summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
+</summary>
+
+1. 사용자 입력값을 DB에 저장
+
+[db/migrate/create_images.rb] : images table 정의, 컬럼생성
+
+```
+$ rails g model image image_url content
+```
+<br>
+[db/schema.rb] : images table 생성, 추가
+
+```
+$ rake db:migrate
+```
+<br>
+[app/controller/instas_controller#create]: image라는 model을 생성하고, image_url과 content 컬럼을 생성한다.
+
+```
+  def create
+    Image.create(
+      image_url: params[:image_url],
+      content: params[:content]
+      )
+      redirect_to '/instas/index'
+  end
+```
+<br>
+
+
+2. DB에 저장된 값을 출력
+
+[app/controller/instas_controller#index]: Image 테이블에서 값을 불러온다. 
+
+```
+  def index
+    @images = Image.all
+  end
+```
+<br>
+
+[app/views/instas/index.erb]: @images 변수를 사용해 web에서 사용자에게 값을 보여준다.
+
+```
+<h1>Insta-Homepage</h1>
+<%=link_to 'Home', "/instas/index"%>
+<br>
+<%=link_to '사진 올리기', new_insta_path%>
+
+
+<% @images.each do |image|%>
+    <p><%=image.image_url%></p>
+    <p><%=image.content%></p>
+    <%=link_to '[상세보기]', insta_path(image.id) %>
+ <hr>
+<% end %>
+```
+</details>
+
+#### 5. DB를 사용하여 수정을 할 수 있다.   
+<details>
+<summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
+</summary>
+수정을 하기 위해서는 **각각의 게시물에 대한 정보**를 받을 수 있어야 한다. **find함수**를 사용한다. 
+
+1. 상세보기 메뉴에서 수정과 삭제를 할 수 있도록 한다.
+
+[app/views/instas/show.erb]
+
+```
+<%=@image.image_url%><br>
+<%=@image.content%>
+<%=link_to '[수정]', edit_insta_path(@image.id) %>
+<%=link_to '[삭제]', insta_path(@image.id), method:"delete"%>
+```
+<br>
+
+[app/controller/instas_controller#show]: 해당 게시물만 받아오고, 보여질 수 있도록 한다.
+
+```
+  def show
+    @image = Image.find(params[:id])
+    
+  end
+```
+<br>
+
+
+2. 수정을 하기 위해서 url에 게시물의 해당id값을 함께 넘겨준다.
+
+[app/views/instas/edit.erb]
+
+```
+<h1>수정</h1>
+<%=link_to 'Home', "/instas/index"%>
+<br>
+
+<%= form_tag insta_path(@image.id), method:"put" do %>
+    사진 주소: <%= text_field_tag :image_url, @image.image_url %><br>
+    내용: <%= text_field_tag :content, @image.content %>
+    <%=submit_tag("사진 올리기")%>
+<% end %>
+
+```
+<br>
+
+[app/controller/instas_controller#edit, #update]
+
+```
+def edit
+    @image = Image.find(params[:id])
+  end
+
+  def update
+    @image = Image.find(params[:id])
+    @image.update(
+      image_url: params[:image_url],
+      content: params[:content]
+      )
+      redirect_to '/instas/index'
+  end
+  
+  def destroy
+    @image = Image.find(params[:id])
+    @image.destroy
+  end
+```
+</details>
+* 수정을 하기 위해서는 해당 게시물만 선택하기 위해서 URL에 id값을 함께 넘겨준다.`edit_insta_path(@image.id)`
+* 해당 게시물을 찾기 위해 row를 선택, Image.find(params[:id])를 사용해 row를 선택한다.
+* 선택된 row를 @image 변수에 저장하고, @image 변수를 사용해 web에서도 출력할 수 있도록 한다.
+
+#### 6. Image가 뜰 수 있도록 변경한다.   
+<details>
+<summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
+</summary>
+</details>
