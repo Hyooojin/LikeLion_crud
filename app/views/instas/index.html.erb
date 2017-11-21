@@ -14,12 +14,22 @@
 <br>
 <%=link_to '사진 올리기', new_insta_path%>
 
-<h1>회원목록</h1>
-<%@instausers.each do |u|%>
-    <%=u.id%>)
-    가입시기: <%=u.created_at%>
-    <%=u.name%>님이 가입한 email은 
-    <%=u.email%>입니다. <br>
-    <%=link_to '[상세보기]', userinsta_path(u.id)%>
+
+<h2>사진목록</h2>
+<% @images.each do |img|%>
+    content: <%=img.content%>
+    <%=image_tag img.image_url%><br>
+    <%=link_to '[상세보기]', insta_path(img.id)%>
     <hr>
 <% end %>
+
+<!--<h1>회원목록</h1>-->
+<!--<#% @images.each do |u|%>-->
+<!--    <#%=u.content%>-->
+<!--    <#%=u.instauser.id%>)-->
+<!--    가입시기: <#%=u.instauser.created_at%>-->
+<!--    <#%=u.instauser.name%>님이 가입한 email은 -->
+<!--    <#%=u.instauser.email%>입니다. <br>-->
+<!--    <#%=link_to '[상세보기]', userinsta_path(u.instauser.id)%>-->
+<!--    <hr>-->
+<!--<#% end %>-->
