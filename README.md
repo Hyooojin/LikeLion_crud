@@ -961,21 +961,111 @@ def edit
 </details>
 
 
-#### 7. User & Images
+#### 7. User
 <details>
 <summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
 </summary>
 * 회원가입, 로그인, 로그아웃
-* controller : #users 
-  * index new create show edit update destroy
-* model : insta_user
-  * insta_email, insta_password, insta_name
+* controller : #userinstas
+  * index new create show edit update destroy sign_up sign_up_process login login_process
+* model : instauser
+  * email, name, password
 
-1. 회원가입, 로그인, 로그아웃 구현
+1. 회원가입
+
+   [app/views/userinstas/sign_up.erb]
+
+   ```ruby
+   # app/views/userinstas/sign_up.erb
+   <h1>로그인</h1>
+   <%=form_tag '/userinstas/login_process', method:"post" do%>
+       email: <%=text_field_tag :email%><br>
+       name: <%=text_field_tag :name%><br>
+       password: <%=text_field_tag :password%><br>
+       <%=submit_tag('로그인')%>
+   <% end %>
+   ```
+
+   [app/controllers/userinstas_controller.rb]
+
+   ```ruby
+   # app/controllers/userinstas_controller.rb
+   # sign_up, sign_up_process
+
+   def sign_up
+     end
+
+     
+     
+     def sign_up_process
+       
+       Instauser.create(
+         email: params[:email],
+         name: params[:name],
+         password: params[:password]
+         )
+         
+         redirect_to '/instas/index'
+     end
+   ```
+
+   ​
+
+2. 로그인
+
+   * find(params[:id])
+
+   * find_by(email: params[:email])
+
+   * DB에 저장된 password == params[:password]
+
+   * 각각 상황에 따른 message 뿌려주기
+
+     ​
+
+     [app/views/userinstas/login.erb]
+
+   ```ruby
+   <h1>로그인</h1>
+   <%=form_tag '/userinsts/login_process', method:"post" do%>
+       email: <%=text_field_tag :email%><br>
+       password: <%=text_field_tag :password%><br>
+       <%=submit_tag('로그인')%>
+   <% end %>
+   ```
+
+   [app/controllers/userinstas_controller.rb]
+
+   ```ruby
+     def login
+     end
+
+     
+     
+     def login_process
+       instauser = Instauser.find_by(email: params[:email])
+       if instauser
+         if instauser.password == params[:password]
+           @msg = "로그인 성공"
+           # redirect_to '/instas/index'
+         else
+           @msg = "비밀번호가 일치하지 않습니다."
+           # redirect_to '/userinstas/login'
+         end
+       else 
+         @msg = "먼저 회원가입을 해주세요."
+         
+       end
+     end
+   ```
+
+   </details>
+
+
+* sign_up과 login같은 경우, Client로 부터 값을 받는 html form과 받은 값을 처리하는 process로 나누었다. 
+* sign_up 프로세스에서는 회원가입 된 User 정보를 DB에 저장한다.
+* login 프로세스에서는 DB에 저장된 값과 user한테 받은 값을 비교할 수 있어야 한다. 따라서 find_by함수를 사용해서 if문을 써서 상황설정을 해야한다.
+* find_by(email: params[:email]) 라는 형식이다.
 
 
 
-
-
-
-</details>

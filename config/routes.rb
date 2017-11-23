@@ -7,8 +7,17 @@ Rails.application.routes.draw do
   get 'instas/index'
   
   
-  resources :userinstas
+  # resources :userinstas
   # get 'userinstas/index'
+  get 'userinstas/sign_up'
+  post 'userinstas/sign_up_process'
+  
+  get 'userinstas/login'
+  post 'userinstas/login_process'
+  
+  
+
+  
 
   # get 'userinstas/new'
 

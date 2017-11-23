@@ -1,5 +1,5 @@
 <h1>회원가입</h1>
-<%=form_tag userinstas_path, method:"post" do%>
+<%=form_tag '/userinstas/sign_up_process', method:"post" do%>
     email: <%=text_field_tag :email%><br>
     name: <%=text_field_tag :name%><br>
     password: <%=text_field_tag :password%><br>
