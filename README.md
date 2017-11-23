@@ -1021,6 +1021,13 @@ def edit
 
    * 각각 상황에 따른 message 뿌려주기
 
+   * DB에 유저가 없을 때 `params[:email]`로 DB를 검색하면 *입력한 아이디가 존재하지 않습니다.*라는 message가 뜬다. 
+
+   * DB에 유저가 있으면 , 패스워드를 비교
+      [패스워드가 맞으면] -> *로그인이 되었습니다.*
+      [패스워드가 틀리면] -> *패스워드가 틀렸습니다.*
+        라는 message가 뜬다.  
+
      ​
 
      [app/views/userinstas/login.erb]
@@ -1069,3 +1076,23 @@ def edit
 
 
 
+
+
+
+
+
+#### 8. User upgrade!
+* password 보안의 성능을 높여준다. 
+* 어떤 User정보를 저장할까? 
+* Login 했을 때를 생각해, user정보를 session값으로 저장하는데, 어떤 User정보를 session에 저장하는지도 중요하다. 
+
+<details>
+<summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
+</summary>
+1. user를 session값에 저장해서 이용한다. 
+
+```ruby
+# 
+```
+
+</details>
