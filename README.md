@@ -29,11 +29,11 @@ gemfile 설정
      gem 'awesome_print'
      gem 'pry-rails'
 
-1. install 
+2. install 
 
     $ bundle install
 
-2. 컨트롤러 생성
+3. 컨트롤러 생성
 
 1.question_controller 컨트롤러 생성
 
@@ -81,7 +81,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
         <input type="submit" value="질문하기">
     </form>
 
-1. 질문을 다음 페이지에서 볼 수 있도록한다.
+2. 질문을 다음 페이지에서 볼 수 있도록한다.
 
 <p>[question_controller#create] - 사용자의 입력을 다음 페이지로 넘기기 위한 method작성</p>
 
@@ -94,7 +94,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
 
 <p> [create.erb] - 값이 잘 넘어오는지 확인</p>
 
-    
+​    
 
     <h1>질문 내용 보여주기</h1>
     <%=@content%>
@@ -144,7 +144,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
         @writter = params[:writter]
       end
 
-1. database에 저장시킨 값을 뿌려준다.
+2. database에 저장시킨 값을 뿌려준다.
    <p>[question_controller#index]  - table에 저장된 값을 불러오는 처리를 해주고 @를 사용해 값을 view로 넘긴다.</p>
 
       def index
@@ -160,7 +160,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
         <p><%=question.content%></p>
         <hr>
     <% end %>
-    
+
 
 </details>
 
@@ -199,7 +199,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
 [routes.rb]에 추가
 
       get 'question/sign_up'
-      
+
       get 'question/sign_up_process'
 
 [question_controller]
@@ -209,7 +209,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
       
     def sign_up_process
     end
-    
+
 
 [veiws] 파일 생성
 
@@ -224,13 +224,13 @@ sign_up.erb와 sign_up_process.erb
         name: <input type="text" name="name">
         password: <input type="password" name="password"><br>
         <input type="submit" value="회원가입">
-        
+
     </form>
 
 <p>[question_controller#sign_up_process] - 회원가입을 위해 받은 값들을 DB에 저장</p>
 
       def sign_up_process
-        
+
         Askeduser.create(
           email: params[:email],
           name: params[:name],
@@ -258,10 +258,10 @@ sign_up.erb와 sign_up_process.erb
    <p>라우팅, method정의, view파일 만들기</p>
 
       get 'question/login_process'
-    
+
       get 'question/logout'
 
-1. login 상태를 <strong>유지</strong>하기위해서는 session에 값을 저장한다.
+2. login 상태를 <strong>유지</strong>하기위해서는 session에 값을 저장한다.
 
 [question_controller#login, #login_process]
 
@@ -284,7 +284,7 @@ sign_up.erb와 sign_up_process.erb
         end
      
       end
-      
+
 
 1. session에 저장한 값으로 로그인된 회원의 정보만 추출가능
 
@@ -339,7 +339,7 @@ How Rails Sessions Work
 <p><strong>session is the perfect place to put this kind of data. Little bis of data you want to keep around for more tha one request.</strong></p>
 
     session[:current_user_id] = @user.id
-    
+​    
 
 <p><strong>A session is jst a place to store data during one request that you can 
 
@@ -352,7 +352,7 @@ session활용 예
       session[:current_user_id] = @user.id
       # 
     end
-    
+
 
     def index
       current_user = User.find_by_id(session[:current_user_id])
@@ -447,8 +447,8 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
       end
       
       def sign_up_process
-        
-        
+
+
         Askeduser.create(
           email: params[:email],
           name: params[:name],
@@ -486,49 +486,49 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
         session.clear
         redirect_to '/'
       end
-      
-      
-      
+
+
+​      
     end
-    
+​    
 
 [routes.rb]
 
     Rails.application.routes.draw do
-      
+
       root 'question#index'
-      
+
       get 'question/index'
-    
+
       get 'question/new'
-    
+
       get 'question/create'
-    
+
       get 'question/show'
-    
+
       get 'question/edit'
-    
+
       get 'question/update'
-    
+
       get 'question/destroy'
-      
+
       get 'question/sign_up'
-      
+
       get 'question/sign_up_process'
-      
+
       get 'question/login'
-      
+
       get 'question/login_process'
-    
+
       get 'question/logout'
-      
+
       end
-    
+​    
 
 [scema.rb]
 
     ActiveRecord::Schema.define(version: 20171117164027) do
-    
+
       create_table "askedusers", force: :cascade do |t|
         t.string   "email"
         t.string   "name"
@@ -545,7 +545,7 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
       end
     
     end
-    
+
 
 [index.erb]
 
@@ -565,7 +565,7 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
         <p><%=question.content%></p>
         <hr>
     <% end %>
-    
+
 
 [new.erb]
 
@@ -589,7 +589,7 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
         <input type="submit" value="회원가입">
         
     </form>
-    
+
 
 [login.erb]
 
@@ -600,7 +600,7 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
         <input type="submit" value="로그인">
         
     </form>
-    
+
 
 </details>
 
@@ -635,7 +635,7 @@ gemfile 설정
      gem 'awesome_print'
      gem 'pry-rails'
 
-1. install 
+2. install 
 
     $ bundle install
 
@@ -686,11 +686,11 @@ gemfile 설정
 root를 설정해야만 바로 url을 눌러서 application을 실행시킬 수 있다. 
 
       root 'question#index' 
-      
+
       get 'instas/index'
-    
+
       resources :instas
-    
+​    
 
 3. Web Service 구현
 
@@ -712,8 +712,8 @@ CRUD를 작성하는데에는 순서가 없지만, 개인적으로 프로그래�
 
     <h1>Insta-Homepage</h1>
     <%=link_to '사진 올리기', new_insta_path%>
-    
-    
+
+
     <a href="/qustion/index">home</a>
     <% if session[:id]%>
         <a href="/question/logout">로그아웃</a></a><br>
@@ -828,8 +828,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
     <%=link_to 'Home', "/instas/index"%>
     <br>
     <%=link_to '사진 올리기', new_insta_path%>
-    
-    
+
+
     <% @images.each do |image|%>
         <p><%=image.image_url%></p>
         <p><%=image.content%></p>
@@ -882,7 +882,7 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
         내용: <%= text_field_tag :content, @image.content %>
         <%=submit_tag("사진 올리기")%>
     <% end %>
-    
+
 
 <br>
 
@@ -937,8 +937,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
     <%=@image.content%>
     <%=link_to '[수정]', edit_insta_path(@image.id) %>
     <%=link_to '[삭제]', insta_path(@image.id), method:"delete"%>
-    
-    
+
+
     <--!edit.erb-->
     <h1>수정</h1>
     <%=link_to 'Home', "/instas/index"%>
@@ -950,8 +950,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
         내용 변경 : <%= text_field_tag :content, @image.content %><br>
         <%=submit_tag("사진 올리기")%>
     <% end %>
-    
-    
+
+​    
 
 </details>
 
@@ -985,11 +985,11 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
        
        def sign_up
          end
-       
-         
-         
+
+
+   ​      
          def sign_up_process
-           
+
            Instauser.create(
              email: params[:email],
              name: params[:name],
@@ -998,7 +998,7 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
              
              redirect_to '/instas/index'
          end
-   
+
 2. 로그인
    - find(params[:id])
    - find_by(email: params[:email])
@@ -1009,7 +1009,7 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
      [패스워드가 맞으면] -> 로그인이 되었습니다.
      [패스워드가 틀리면] -> 패스워드가 틀렸습니다.
        라는 message가 뜬다.  
-     
+
      [app/views/userinstas/login.erb]
        <h1>로그인</h1>
        <%=form_tag '/userinsts/login_process', method:"post" do%>
@@ -1017,12 +1017,12 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
            password: <%=text_field_tag :password%><br>
            <%=submit_tag('로그인')%>
        <% end %>
-   [app/controllers/userinstas_controller.rb]
+     [app/controllers/userinstas_controller.rb]
          def login
          end
-       
-         
-         
+
+
+     ​    
          def login_process
            instauser = Instauser.find_by(email: params[:email])
            if instauser
@@ -1038,7 +1038,7 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
              
            end
          end
-   </details>
+     </details>
 
 - sign_up과 login같은 경우, Client로 부터 값을 받는 html form과 받은 값을 처리하는 process로 나누었다. 
 - sign_up 프로세스에서는 회원가입 된 User 정보를 DB에 저장한다.
@@ -1068,14 +1068,14 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
 
     session[:user_id] = instauser.id
 
-1. logout
+2. logout
 
       def destroy
         session.clear
         redirect_to '/instas/index'
       end
 
-1. Get방식 -> Post방식
+3. Get방식 -> Post방식
    method = "post"라는 것은 post방식으로 방식으로 받는다는 것을 뜻한다. 개발을 하다보면 route error가 나는데, post로 온 통신을 post로 받지못할 경우 error가 난다. 
    <p style="color:red;">ActionController::InvalidAuthenticityToken</p>
    ActionController
@@ -1087,19 +1087,15 @@ Since the authenticity token is stored in the session, the client cannot know it
 - Authenticity Token
 - session
 - hidden field 
-  
+
   get방식으로 값을 넘길 경우
 
 - get방식으로 password같은 것을 처리했을 때 
 - url로 값이 넘어오는 것이 다 보인다.
-  https://도메인/userinstas/login_process?utf8=%E2%9C%93&email=a%40email.com&password=a&commit=%EB%A1%9C%EA%B7%B8%EC%9D%B8
+- https://도메인/userinstas/login_process?utf8=%E2%9C%93&email=a%40email.com&password=a&commit=%EB%A1%9C%EA%B7%B8%EC%9D%B8
 - Query String Parameters에 값이 다 보인다. 
 
-	Post 방식으로 값을 넘길 경우 => post로 바꿔준다.
-
-      post 'userinstas/login_process'
-    # app/views/userinstas/login.erb
-    <%=form_tag '/userinstas/login_process', method:"post" do%>
+  Post 방식으로 값을 넘길 경우 => post로 바꿔준다.
 
 - Request URL:
 
@@ -1111,19 +1107,44 @@ POST
 
 - Url로는 값이 넘어오지 않는다. 
   https://[도메인주소]/userinstas/login_process
-- 하지만, Form Data에서 확인할 수 있다는 취약점이 있다.
-   utf8: ✓
-- authenticity_token:
-  I+HyT0p+Y5mdZ6rhcn1JwHdfW/DZqNNlShCi3gXSK1fzI02OZrYJHVJBrEPJvDMFYO34I66cmvErDAzf7Y1b+Q==
-  email: a@email.com
-  password: a
-  commit: 로그인
+- 하지만, form action에서는 error가 난다.
+  ActionController::InvalidAuthenticityToken 
 
-	Authenticity Token
+```ruby
+<form action='/userinstas/login_process', method="post">
+email: <input type="email" name="email"><br>
+password: <input type="password" name="password"><br>
+<input type="submit" value="로그인">
+```
 
 
+액션 컨트롤러 쪽에서 Authenticity Token이라는 것을 요구하는데 그것이 없으면 발생하는 에러이다. 
 
-	
+form action으로 작성할 경우, authenticitytoken을 같이 넘겨줘야 한다.  
+
+```ruby
+<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token()%>">
+```
+
+token값을 hidden값으로 넘겨주면 된다. 
+
+```ruby
+<form action='/userinstas/login_process', method="post">
+email: <input type="email" name="email"><br>
+password: <input type="password" name="password"><br>
+<input type="hidden" name="authenticity_token" value="<%=form_authenticity_token()%>">
+<input type="submit" value="로그인">
+```
+
+form_tag로 작성하면 authenticity_token을 따로 심어주지 않아도 된다. 
+
+```ruby
+<%=form_tag '/userinstas/login_process', method:"post" do%>
+    email: <%=text_field_tag :email%><br>
+    password: <%=text_field_tag :password%><br>
+    <%=submit_tag('로그인')%>
+<% end %>
+```
 
 
 

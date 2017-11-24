@@ -36,14 +36,14 @@ class UserinstasController < ApplicationController
       if instauser.password == params[:password]
         session[:user_id] = instauser.id
         @msg = "로그인 성공"
-        # redirect_to '/instas/index'
+        redirect_to '/instas/index'
       else
         @msg = "비밀번호가 일치하지 않습니다."
-        # redirect_to '/userinstas/login'
+        redirect_to '/userinstas/login'
       end
     else 
       @msg = "먼저 회원가입을 해주세요."
-      # redirect_to '/userinstas/sign_up'
+      redirect_to '/userinstas/sign_up'
     end
   end
 
