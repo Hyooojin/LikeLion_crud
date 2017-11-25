@@ -1,6 +1,6 @@
-CRUD 뽀개기
+#CRUD 뽀개기
 
-CRUD 1: Like asked homepage
+# CRUD 1: Like asked homepage
 
 asked Homepage<br>
 
@@ -11,7 +11,7 @@ asked Homepage<br>
 - rails g modle temp_user<br>
   - email, name, password<br>
 
-구현
+# 구현
 
 Step-by-step으로 정리한다. Rails를 활용하여 CRUD를 구현하는 방법을 정리할 것이며,
 
@@ -19,7 +19,7 @@ Step-by-step으로 정리한다. Rails를 활용하여 CRUD를 구현하는 방�
 
 다양한 실습을 하며 배운 이론과 개념도 다시 재정리 할 수 있으면 좋을 것 같다.
 
-1. 환경설정
+## 1. 환경설정
 
 gemfile 설정
 
@@ -34,8 +34,7 @@ gemfile 설정
     $ bundle install
 
 3. 컨트롤러 생성
-
-1.question_controller 컨트롤러 생성
+  1.question_controller 컨트롤러 생성
 
     $ rails g controller question index new create show edit update destroy
 
@@ -43,23 +42,23 @@ gemfile 설정
 - app > controller > question_controller 확인
 - app > view > question 확인
 
-2.routes의 root 설정<br>
+## 2.routes의 root 설정<br>
 
 root를 설정해야만 바로 url을 눌러서 application을 실행시킬 수 있다. 
 
-3. Web Service 구현
+## 3. Web Service 구현
 
-1.index page view page 작성
+#### 1.index page view page 작성 <hr>
 
 CRUD를 작성하는데에는 순서가 없지만, 개인적으로 프로그래밍 갓입문자로써 index veiw page를 먼저 작성하는 것이 편하다.
 
     <a href="/question/new">질문하러 가기</a>
 
-2.web 실행
+#### 2.web 실행 <hr>
 
 Run버튼을 누르고 커멘트창에 url을 Open하면 web이 실행된다.
 
-3.사용자에게 입력받고, 입력받은 값을 보여주도록 한다.
+#### 3.사용자에게 입력받고, 입력받은 값을 보여주도록 한다. <hr>
 
 new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다음 단계에서 확인할 수 있도록 한다.
 
@@ -90,7 +89,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
         @writter = params[:writter]
      end
 
-1. data를 이동시키기 위해서 controller를 작성한다. 
+3. data를 이동시키기 위해서 controller를 작성한다. 
 
 <p> [create.erb] - 값이 잘 넘어오는지 확인</p>
 
@@ -110,7 +109,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
 
 
 
-4.DB에 저장
+#### 4.DB에 저장 <hr>
 
 다양한 사용자에게 Web Service를 제공하기 위해서는 많은 사람들을 입력값을 받을 수 있어야 한다. 따라서 여러명의 사용자에게 입력받은 
 
@@ -130,26 +129,31 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
 
 - db > maigrate > create_question.rb확인
 
-1. 준비된 테이블을 실제로 생성시킨다.
+2. 준비된 테이블을 실제로 생성시킨다.
 
     $ rake db:migrate
 
 - db > schema.rb를 확인
 
-1. 넘어오는 값들을 database에 저장시킨다.
-   <p> [question_controller#create] - new page에서 얻은 값을 database에 저장하는 처리를 한다.</p>
+3. 넘어오는 값들을 database에 저장시킨다.
 
-      def create
-        @content = params[:content]
-        @writter = params[:writter]
-      end
+<p> [question_controller#create] - new page에서 얻은 값을 database에 저장하는 처리를 한다.</p>
 
-2. database에 저장시킨 값을 뿌려준다.
-   <p>[question_controller#index]  - table에 저장된 값을 불러오는 처리를 해주고 @를 사용해 값을 view로 넘긴다.</p>
+   def create
+```
+ @content = params[:content]
+ @writter = params[:writter]
+```
+   end
 
-      def index
-        @questions = Question.all
-      end
+4. database에 저장시킨 값을 뿌려준다.
+  <p>[question_controller#index]  - table에 저장된 값을 불러오는 처리를 해주고 @를 사용해 값을 view로 넘긴다.</p>
+
+   def index
+```
+ @questions = Question.all
+```
+   end
 
 <p>[index.erb] - 컨트롤러의 index method에서 넘어온 값을 for문을 사용하여 출력시킨다. </p>
 
@@ -173,7 +177,7 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
 - question model을 생성
 - 기본url/rails/db 를 하면 web에서 값을 받아 db에 저장된 값들을 쉽게 확인할 수 있다.
 
-5.User의 회원가입과 공개일 경우
+#### 5.User의 회원가입과 공개일 경우 <hr>
 
 질문은 익명/공개로 나뉘는데 회원가입을 통해 질문을 남긴 사용자들은 
 
@@ -193,8 +197,9 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
 
 위의 모델 생성과 같은 절차를 반복한다.
 
-1. routes.rb에 회원가입과 로그인에 쓰일 것들을 라우팅, method정의, view를 만들어준다.
-   <p>라우팅 => 컨트롤러 method 정의 => veiw 작성의 순서대로 이루어진다. </p>
+2. routes.rb에 회원가입과 로그인에 쓰일 것들을 라우팅, method정의, view를 만들어준다.
+
+<p>라우팅 => 컨트롤러 method 정의 => veiw 작성의 순서대로 이루어진다. </p>
 
 [routes.rb]에 추가
 
@@ -215,17 +220,20 @@ new page에서 사용자에게 질문을 받고, 사용자가 쓴 질문을 다�
 
 sign_up.erb와 sign_up_process.erb
 
-1. 회원가입을 통해 user값을 입력받고, db에 저장시킨다. 
-   <p>[sign_up.erb] - user 회원가입 form을 생성</p>
+3. 회원가입을 통해 user값을 입력받고, db에 저장시킨다. 
 
-    <h1>회원가입</h1>
-    <form action="/question/sign_up_process">
-        email: <input type="email" name="email">
-        name: <input type="text" name="name">
-        password: <input type="password" name="password"><br>
-        <input type="submit" value="회원가입">
+<p>[sign_up.erb] - user 회원가입 form을 생성</p>
 
-    </form>
+ <h1>회원가입</h1>
+ <form action="/question/sign_up_process">
+```
+ email: <input type="email" name="email">
+ name: <input type="text" name="name">
+ password: <input type="password" name="password"><br>
+ <input type="submit" value="회원가입">
+```
+
+ </form>
 
 <p>[question_controller#sign_up_process] - 회원가입을 위해 받은 값들을 DB에 저장</p>
 
@@ -242,7 +250,9 @@ sign_up.erb와 sign_up_process.erb
 
 </details>
 
-6.로그인
+
+
+#### 6.로그인 <hr>
 
 로그인을 하면 질문을 쓸 수 있고, 익명을 선택한 사람은 이름을 보여주지 말고, 
 
@@ -285,8 +295,7 @@ sign_up.erb와 sign_up_process.erb
      
       end
 
-
-1. session에 저장한 값으로 로그인된 회원의 정보만 추출가능
+3. session에 저장한 값으로 로그인된 회원의 정보만 추출가능
 
 [view]에서 로그인의 진행상황을 @msg에 담아 출력해본다.
 
@@ -304,7 +313,7 @@ redirect_to를 이용해서 다른 곳으로 넘길경우 create.erb에 적용�
 - session에 id를 저장시켜 추후에 사용된다. 
 - 그 외의 비밀번호가 틀렸거나, 회원가입이 안된것은 else문으로 처리해준다.
 
-7.로그아웃
+#### 7.로그아웃 <hr>
 
 session에 저장된 id를 로그아웃에 사용한다.
 
@@ -326,7 +335,7 @@ session에 저장된 id를 로그아웃에 사용한다.
 
 
 
-8.session
+#### 8.session <hr>
 
 로그인을 한 순간, session에는 user의 id가 저장되게 된다.
 
@@ -382,10 +391,11 @@ app/controllers/question_controller.rb#login_process
 
 email로 해당 Row를 찾고, 비밀번호가 일치했을 때, session[:id]에 그id값을 저장했다.
 
-1. login 후에 session에 저장된 값으로 user 정보를 출력한다. 
-   <p>session에 저장된 값을 사용할 수 있다.</p>
+2. login 후에 session에 저장된 값으로 user 정보를 출력한다. 
 
-    @current_user = Askeduser.find_by_id(session[:id])
+<p>session에 저장된 값을 사용할 수 있다.</p>
+
+ @current_user = Askeduser.find_by_id(session[:id])
 
 Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장하고 추후 사용
 
@@ -398,7 +408,7 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
 
 </details>
 
-9.question & private or public & login
+#### 9.question & private or public & login <hr>
 
 <details>
 
@@ -447,9 +457,7 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
       end
       
       def sign_up_process
-
-
-        Askeduser.create(
+          Askeduser.create(
           email: params[:email],
           name: params[:name],
           password: params[:password]
@@ -486,14 +494,12 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
         session.clear
         redirect_to '/'
       end
+      end
 
 
-​      
-    end
-​    
+​    [routes.rb]
 
-[routes.rb]
-
+```ruby
     Rails.application.routes.draw do
 
       root 'question#index'
@@ -523,12 +529,15 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
       get 'question/logout'
 
       end
-​    
+```
+
+   
 
 [scema.rb]
 
-    ActiveRecord::Schema.define(version: 20171117164027) do
 
+
+      ActiveRecord::Schema.define(version: 20171117164027) do
       create_table "askedusers", force: :cascade do |t|
         t.string   "email"
         t.string   "name"
@@ -604,7 +613,7 @@ Askeduser 테이블에서 id로 찾은 session[:id]값을 currnet_id에 저장�
 
 </details>
 
-CRUD 2: Like Insta homepage
+# CRUD 2: Like Insta homepage
 
 Insta Homepage<br>
 
@@ -615,7 +624,7 @@ Insta Homepage<br>
 - rails g model insta_user<br>
   - email, name, password<br>
 
-구현
+# 구현
 
 Step-by-step으로 정리한다. Rails를 활용하여 CRUD를 구현하는 방법을 정리할 것이며,
 
@@ -623,25 +632,23 @@ Step-by-step으로 정리한다. Rails를 활용하여 CRUD를 구현하는 방�
 
 다양한 실습을 하며 배운 이론과 개념도 다시 재정리 할 수 있으면 좋을 것 같다.<br>
 
-1. 환경설정
+## 1. 환경설정
 
----
+1. gemfile 설정
 
-gemfile 설정
-
-1. gemfile에 추가
+2. gemfile에 추가
 
      gem 'rails_db'
      gem 'awesome_print'
      gem 'pry-rails'
 
-2. install 
+3. install 
 
     $ bundle install
 
 <br>
 
-2. 컨트롤러 생성
+## 2. 컨트롤러 생성
 
 ---
 
@@ -668,35 +675,31 @@ gemfile 설정
 
 <p><strong>REST API 가이드</strong></p>
 
-1. URL 정보를 표현한다.
-2. 자원에 대한 행위는 HTTP Method(GET, POST, PUT, DELETE)로 표현한다.
-3. 여러규칙들 (Convention)
-   1. Routing은 RESTful하게
-      1. Resource(조작할 자료) 
-         =>controller 이름을 복수형으로
-         =>/posts/index
-         =>rails g controller posts
-      2. 단 model은 단수형
-         => 복수로 자동으로 만들어지기 때문에
-         => 테이블은 자동으로 복수형
-         => Post.all
+* URL 정보를 표현한다.
+* 자원에 대한 행위는 HTTP Method(GET, POST, PUT, DELETE)로 표현한다.
+* 여러규칙들 (Convention)
+   Routing은 RESTful하게
+   *  Resource(조작할 자료) 
+     =>controller 이름을 복수형으로
+     =>/posts/index
+     =>rails g controller posts
+   *  단 model은 단수형
+     => 복수로 자동으로 만들어지기 때문에
+     => 테이블은 자동으로 복수형
+     => Post.all
 
-2.routes의 root 설정<br>
+2. routes의 root 설정<br>
 
 root를 설정해야만 바로 url을 눌러서 application을 실행시킬 수 있다. 
 
       root 'question#index' 
-
       get 'instas/index'
-
-      resources :instas
-​    
-
-3. Web Service 구현
+      resources :instas 
+### 3. Web Service 구현
 
 ---
 
-1.index page view page 작성
+#### 1.index page view page 작성
 
 ---
 
@@ -726,7 +729,7 @@ CRUD를 작성하는데에는 순서가 없지만, 개인적으로 프로그래�
 - $ rake routes의 path이용
 - form_tag이용
 
-2.'form_tag'와 'link_to'
+#### 2.'form_tag'와 'link_to'
 
 ---
 
@@ -739,7 +742,8 @@ form_tag와 link_to 그리고 method, path등을 이용해서 더욱
 - index new create show edit update destroy 
 - 명령어를 사용하면 각각의 path와 method를 확인할 수 있다.
 
-3. Insta처럼 사진을 올릴 수 있다.
+#### 3. Insta처럼 사진을 올릴 수 있다.
+---------
 
 <details>
 
@@ -778,8 +782,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
 
 </details>
 
-4. 인스타에 올린 사진을 수정, 저장을 하기 위해서는 DB가 필요하다.
-
+#### 4. 인스타에 올린 사진을 수정, 저장을 하기 위해서는 DB가 필요하다.
+-------
 <details>
 
 <summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
@@ -812,7 +816,7 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
 
 <br>
 
-1. DB에 저장된 값을 출력
+2. DB에 저장된 값을 출력
 
 [app/controller/instas_controller#index]: Image 테이블에서 값을 불러온다. 
 
@@ -839,7 +843,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
 
 </details>
 
-5. DB를 사용하여 수정을 할 수 있다.
+#### 5. DB를 사용하여 수정을 할 수 있다.
+-----
 
 <details>
 
@@ -912,8 +917,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
 - 해당 게시물을 찾기 위해 row를 선택, Image.find(params[:id])를 사용해 row를 선택한다.
 - 선택된 row를 @image 변수에 저장하고, @image 변수를 사용해 web에서도 출력할 수 있도록 한다.
 
-6. Image가 뜰 수 있도록 변경한다.
-
+#### 6. Image가 뜰 수 있도록 변경한다.
+-----
 <details>
 
 <summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
@@ -955,8 +960,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
 
 </details>
 
-7. User
-
+#### 7. User
+-------
 <details>
 
 <summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
@@ -1051,8 +1056,8 @@ insta_path 처럼 path를 덧붙인다. 그리고 정의된 대로 method는 put
 
 
 
-8. User upgrade!
-
+#### 8. User upgrade!
+------
 - password 보안의 성능을 높여준다. 
 - 어떤 User정보를 저장할까? 
 - Login 했을 때를 생각해, user정보를 session값으로 저장하는데, 어떤 User정보를 session에 저장하는지도 중요하다. 
