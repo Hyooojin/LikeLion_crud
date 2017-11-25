@@ -22,10 +22,11 @@ ActiveRecord::Schema.define(version: 20171120121248) do
   end
 
   create_table "images", force: :cascade do |t|
+    t.integer  "instauser_id"
     t.string   "image_url"
     t.string   "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "instausers", force: :cascade do |t|

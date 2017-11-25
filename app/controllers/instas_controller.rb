@@ -14,7 +14,8 @@ class InstasController < ApplicationController
   def create
     Image.create(
       image_url: params[:image_url],
-      content: params[:content]
+      content: params[:content],
+      instauser_id: session[:instauser_id]
       )
       redirect_to '/instas/index'
   end

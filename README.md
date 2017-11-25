@@ -1151,6 +1151,100 @@ form_tag로 작성하면 authenticity_token을 따로 심어주지 않아도 된
 <% end %>
 ```
 
+</details>
+
+#### 9. Model간의 관계
+------
+* has_many, belongs_to
+* User는 여러개의 Images를 가질 수 있다.
+* Image는 특정 User에게 속한다.
+
+<details>
+
+<summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
+
+</summary>
+1. user_id추가
+
+
+```ruby
+create_table :images do |t|
+      t.integer :user_id
+      t.string :image_url
+      t.string :content
+```
+
+2. 관계설정
+
+[models/instauser.rb, image.rb]
+
+```ruby
+# models/instauser.rb
+class Instauser < ActiveRecord::Base
+    has_many :images
+end
+
+# models/image.rb
+class Image < ActiveRecord::Base
+    belongs_to :instauser
+end
+
+```
+
+3. user_id가 안들어갈 경우, error가 나므로 꼭 login하고 Test하자.
+
+* user_id도 params로 받을 수 있도록 설정
+
+```ruby
+  def create
+    Image.create(
+      image_url: params[:image_url],
+      content: params[:content],
+      user_id: session[:user_id]
+      )
+      redirect_to '/instas/index'
+  end
+```
+
+rails/db로 확인해 봤을 때 image_url과 content, id와 함께 user_id도 들어온다. 
+
+4. model관계를 사용해서 해당하는 User가 자신만의 게시물을 확인할 수 있도록 하려고 한다.
+
+* 해당 user_id의 image를 확인할 수 있다.
+
+```ruby
+[5] pry(main)> Instauser.all
+  Instauser Load (0.4ms)  SELECT "instausers".* FROM "instausers"
+=> [#<Instauser:0x00000003b19600
+  id: 1,
+  email: "a@email.com",
+  name: "a",
+  password: "a",
+  created_at: Sat, 25 Nov 2017 10:07:56 UTC +00:00,
+  updated_at: Sat, 25 Nov 2017 10:07:56 UTC +00:00>,
+ #<Instauser:0x00000003b18ea8
+  id: 2,
+  email: "b@email.com",
+  name: "b",
+  password: "b",
+  created_at: Sat, 25 Nov 2017 10:09:13 UTC +00:00,
+  updated_at: Sat, 25 Nov 2017 10:09:13 UTC +00:00>]
+
+
+[15] pry(main)> Image.all
+
+[17] pry(main)> Image.find_by(instauser_id: 1) 
+
+[19] pry(main)> Instauser.find(1).images
+
+
+```
 
 
 </details>
+
+
+
+
+
+
