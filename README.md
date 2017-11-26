@@ -163,7 +163,7 @@ end
 
 * [question_controller#index]  - table에 저장된 값을 불러오는 처리를 해주고 @를 사용해 값을 view로 넘긴다.
 
-```
+```ruby
 def index
  @questions = Question.all
 end
@@ -397,9 +397,7 @@ some_other_variable_value = session[:other_variable_key]
 출처: [Justin Weiss - How Rails Sessions Work](https://www.justinweiss.com/articles/how-rails-sessions-work/)
 
 <details>
-
 <summary><strong>Step-by-step(자세한 내용을 보려면 펼쳐주세요)</strong>
-
 </summary>
 
 1. 비밀번호가 일치했을 때 id값을 session[:id]에 저장
