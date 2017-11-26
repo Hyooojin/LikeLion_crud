@@ -870,9 +870,11 @@ end
 <%=link_to '[수정]', edit_insta_path(@image.id) %>
 <%=link_to '[삭제]', insta_path(@image.id), method:"delete"%>
 ```
+
 <br>
 
 * [app/controller/instas_controller#show]: 해당 게시물만 받아오고, 보여질 수 있도록 한다.
+
 
 ```ruby
 def show
@@ -883,6 +885,7 @@ end
 
 2. 수정을 하기 위해서 url에 게시물의 해당id값을 함께 넘겨준다.
 -------------------
+
 * [app/views/instas/edit.erb]
 
 ```html
@@ -896,6 +899,8 @@ end
 	<%=submit_tag("사진 올리기")%>
 <% end %>
 <br>
+```
+
 
 * [app/controller/instas_controller#edit, #update]
 
@@ -1067,7 +1072,7 @@ end
  end
          
 ```
-     </details>
+</details>
 
 - sign_up과 login같은 경우, Client로 부터 값을 받는 html form과 받은 값을 처리하는 process로 나누었다. 
 - sign_up 프로세스에서는 회원가입 된 User 정보를 DB에 저장한다.
