@@ -9,13 +9,15 @@ class InstasController < ApplicationController
   def show
     @image = Image.find(params[:id])
     
+    @instauser = Instauser.find(session[:user_id]).images
+    
   end
 
   def create
     Image.create(
       image_url: params[:image_url],
       content: params[:content],
-      instauser_id: session[:instauser_id]
+      instauser_id: session[:user_id]
       )
       redirect_to '/instas/index'
   end

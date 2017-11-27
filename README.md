@@ -1200,7 +1200,7 @@ form_tag로 작성하면 authenticity_token을 따로 심어주지 않아도 된
 
 ```ruby
 create_table :images do |t|
-      t.integer :user_id
+      t.integer :instauser_id
       t.string :image_url
       t.string :content
 ```
@@ -1224,24 +1224,34 @@ end
 
 3. user_id가 안들어갈 경우, error가 나므로 꼭 login하고 Test하자.
 -------------------
+
+* session값이 어떻게 저장되어있는지 확인
 * user_id도 params로 받을 수 있도록 설정
 
+* [app/controllers/userinstas_controller #login_process]
+
+```ruby
+session[:user_id] = instauser.id
+```
+
+* [app/controllers/instas_controller #create]
 ```ruby
   def create
     Image.create(
       image_url: params[:image_url],
       content: params[:content],
-      user_id: session[:user_id]
+      instauser_id: session[:user_id]
       )
       redirect_to '/instas/index'
   end
 ```
 
-rails/db로 확인해 봤을 때 image_url과 content, id와 함께 user_id도 들어온다. 
+rails/db로 확인해 봤을 때 image_url과 content, id와 함께 instauser_id도 들어온다. 
 
-4. model관계를 사용해서 해당하는 User가 자신만의 게시물을 확인할 수 있도록 하려고 한다.
+4. User가 자신만의 게시물을 모두 확인할 수 있도록 하려고 한다.
 -------------------------------
 * 해당 user_id의 image를 확인할 수 있다.
+* 로그인 session값을 이용해서, 자신이 쓴 게시물을 보여질 수 있도록 한다. 
 
 ```ruby
 [5] pry(main)> Instauser.all
@@ -1271,6 +1281,19 @@ rails/db로 확인해 봤을 때 image_url과 content, id와 함께 user_id도 �
 
 ```
 
+* [app/views/intas #show.erb]
+
+```html
+<hr>
+[내 게시물]<br>
+<% @instauser.each do |i|%>
+    <strong><%=i.id%>번째 img</strong><br>
+    <%=image_tag i.image_url%><br>
+    <strong>content: </strong>
+    <%= i.content %>
+    <%=link_to '[수정]', edit_insta_path(i.id) %><br>
+<% end %>
+```
 
 
 </details>

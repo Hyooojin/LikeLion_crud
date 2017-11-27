@@ -3,6 +3,18 @@
 <%=link_to '[수정]', edit_insta_path(@image.id) %>
 <%=link_to '[삭제]', insta_path(@image.id), method:"delete"%>
 
+<hr>
+[내 게시물]<br>
+<% @instauser.each do |i|%>
+    <strong><%=i.id%>번째 img</strong><br>
+    <%=image_tag i.image_url%><br>
+    <strong>content: </strong>
+    <%= i.content %>
+    <%=link_to '[수정]', edit_insta_path(i.id) %><br>
+<% end %>
+
+
+
 <!--<#% @image.images each do |img|%>-->
 <!--<p><#%=%></p>-->
 <!--<#% end %>-->
