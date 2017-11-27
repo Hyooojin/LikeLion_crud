@@ -1295,6 +1295,31 @@ rails/db로 확인해 봤을 때 image_url과 content, id와 함께 instauser_id
 <% end %>
 ```
 
+5. Login한 유저는 자신의 게시물만 수정할 수 있다.
+-------------------------------
+* session에 저장된 값 = image에 있는 instauser_id
+* 수정, 삭제
+
+상황을 설정한다. 
+<br>
+
+* app/controller/instas_controller.rb
+
+```ruby
+  def edit
+    @image = Image.find(params[:id])
+    
+    if session[:user_id] != Image.find(params[:id]).instauser.id
+      redirect_to '/instas/index'
+    end
+  
+  end
+```
+(1) 로그인 한 유저가 다른 유저가 쓴 게시물을 수정하려고 하면 insta 기본페이지로 돌아간다.
+(2) 로그인 한 유저가 자신의 유저가 쓴 게시물을 수정하려고 하면, 수정페이지로 넘어간다. 
+
+
+
 
 </details>
 
