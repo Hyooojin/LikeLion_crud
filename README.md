@@ -1185,9 +1185,9 @@ form_tag로 작성하면 authenticity_token을 따로 심어주지 않아도 된
 
 #### 9. Model간의 관계
 
-* has_many, belongs_to
-* User는 여러개의 Images를 가질 수 있다.
-* Image는 특정 User에게 속한다.
+> * has_many, belongs_to
+> * User는 여러개의 Images를 가질 수 있다.
+> * Image는 특정 User에게 속한다.
 
 <details>
 
