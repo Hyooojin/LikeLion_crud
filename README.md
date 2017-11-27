@@ -1306,19 +1306,45 @@ rails/db로 확인해 봤을 때 image_url과 content, id와 함께 instauser_id
 * app/controller/instas_controller.rb
 
 ```ruby
-  def edit
-    @image = Image.find(params[:id])
-    
-    if session[:user_id] != Image.find(params[:id]).instauser.id
-      redirect_to '/instas/index'
-    end
+   def edit
+ 	 @image = Image.find(params[:id])
+	  if session[:user_id] != Image.find(params[:id]).instauser.id
+     	 redirect_to insta_path(@image)
+	  end
+   end
   
-  end
+	def update
+	    @image = Image.find(params[:id])
+	      if session[:user_id] != Image.find(params[:id]).instauser.id
+	        redirect_to insta_path(@image)
+	      else
+	        @image.update(
+	          image_url: params[:image_url],
+	          content: params[:content]
+	          )
+	          redirect_to '/instas/index'
+	      end
+	 end  
+	 
+  def destroy
+    @image = Image.find(params[:id])
+      if session[:user_id] != Image.find(params[:id]).instauser.id
+        redirect_to insta_path(@image)
+      else
+        @image.destroy
+        redirect_to '/instas/index'
+      end
+  end	 
+	 
 ```
-(1) 로그인 한 유저가 다른 유저가 쓴 게시물을 수정하려고 하면 insta 기본페이지로 돌아간다.
-(2) 로그인 한 유저가 자신의 유저가 쓴 게시물을 수정하려고 하면, 수정페이지로 넘어간다. 
+(1) 로그인 한 유저가 다른 유저가 쓴 게시물을 수정하려고 하면 show페이지로 돌아간다.<br>
+(2) 로그인 한 유저가 자신의 유저가 쓴 게시물을 수정하려고 하면, 수정이 된 후 index 페이지로 넘어간다. <br>
+<br>
 
-
+* rake routes 명령어를 통해 path를 확인하고 사용할 수 있다. 
+* 서로 다른 Model의 관계를 맺고, 연결하여 사용할 수 있다.
+* has_many, belongs_to
+* session값과 model의 관계를 이용해, 해당 user만이 수정, 삭제를 할 수 있게 한다.
 
 
 </details>

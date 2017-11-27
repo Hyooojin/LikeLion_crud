@@ -26,27 +26,32 @@ class InstasController < ApplicationController
     @image = Image.find(params[:id])
     
     if session[:user_id] != Image.find(params[:id]).instauser.id
-      redirect_to '/instas/index'
+      redirect_to insta_path(@image)
     end
   
   end
 
   def update
     @image = Image.find(params[:id])
-      
-    if session[:user_id] != Image.find(params[:id]).instauser.id
-      redirect_to "/instas/show/#{params[:id]}"
-    else
-      @image.update(
-        image_url: params[:image_url],
-        content: params[:content]
-        )
-        redirect_to '/instas/index'
-    end
+      if session[:user_id] != Image.find(params[:id]).instauser.id
+        redirect_to insta_path(@image)
+      else
+        @image.update(
+          image_url: params[:image_url],
+          content: params[:content]
+          )
+          redirect_to '/instas/index'
+      end
   end
 
   def destroy
     @image = Image.find(params[:id])
-    @image.destroy
+      if session[:user_id] != Image.find(params[:id]).instauser.id
+        redirect_to insta_path(@image)
+      else
+        @image.destroy
+        redirect_to '/instas/index'
+      end
   end
+
 end
